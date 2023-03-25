@@ -4,8 +4,20 @@ library(aws.s3)
 library(caret)
 
 # Function to deploy the CloudFormation template
-deploy_cloudformation_template <- function(template_file, stack_name, aws_account) {
-  # Add code to deploy the CloudFormation template to the specified AWS account
+deploy_cloudformation_template <- function(stack_name, vpc_cidr, subnet_cidr, instance_type) {
+  # Read the CloudFormation template file
+  template <- yaml::read_yaml("ddos_detection.yaml")
+  
+  # Update the template parameters with the input values
+  template$Resources$VPC$Properties$CidrBlock <- vpc_cidr
+  template$Resources$PublicSubnetA$Properties$CidrBlock <- subnet_cidr
+  # Add updates for other resources as needed, such as instance types and logging configurations
+  
+  # Convert the updated template back to a YAML string
+  updated_template <- yaml::as.yaml(template)
+  
+  # Deploy the updated CloudFormation template to the specified AWS account
+  # Add code to deploy the updated template using the AWS CLI, SDK, or an R package
 }
 
 # Function to simulate and collect network traffic data
